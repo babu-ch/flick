@@ -163,7 +163,7 @@ function isHint(key:Key|string|undefined) {
          v-for="key in keys" :key="key.main"
          @mousedown="mousedown(key, $event)"
          @mouseup="mouseup(key.main)"
-         :class="{hint: isHint(key), disabled:key.isCommand && !key.isConvertKey}"
+         :class="{hint: isHint(key), disabled:key.isCommand && !key.isConvertKey, convertKey:key.isConvertKey}"
     >{{ key.main }}
     </div>
   </div>
@@ -218,5 +218,12 @@ function isHint(key:Key|string|undefined) {
 
 .disabled {
   background-color: gray;
+}
+
+.convertKey::after {
+  content: "大⇔小";
+  position: absolute;
+  top:60%;
+  font-size: 0.5em;
 }
 </style>
