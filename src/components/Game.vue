@@ -28,9 +28,17 @@ watch(currentSentence, () => {
 })
 
 function input(value: string) {
-  console.error(value)
-  if (currentWordStatus.value[0] === value) {
-    currentWordStatus.value = currentWordStatus.value.slice(1)
+  if (currentWordStatus.value[0] !== value) {
+    return
+  }
+  currentWordStatus.value = currentWordStatus.value.slice(1)
+  if (!currentWordStatus.value.length) {
+    const sentence = sentenceList.value.pop();
+    if (!sentence) {
+      location.reload();
+      return;
+    }
+    currentSentence.value = sentence;
   }
 }
 </script>
