@@ -27,7 +27,7 @@ const keys: Key[] = [
   {main: "や", left: "", up: "ゆ", right: "", down: "よ", isCommand:false},
   {main: "ら", left: "り", up: "る", right: "れ", down: "ろ", isCommand:false},
   {main: "_", isCommand:true},
-  {main: "゛゜", isCommand:true, isConvertKey: true},
+  {main: "゛゜", isCommand:true, isConvertKey: true, left:"゛", right:"゜"},
   {main: "わ", left: "を", up: "ん", right: "ー", down: "〜", isCommand:false},
   {main: "、", left: "。", up: "？", right: "！", down: "...", isCommand:false},
   {main: "↵", isCommand:true},
@@ -100,9 +100,14 @@ const prevInput = ref("");
 function mouseup(value:string) {
   // 他のキーの上でupするのを防ぐ
   if (Object.values(currentKey.value).find(v => v === value)) {
-    if (value === "゛゜") {
-      emit("input", convertMap[prevInput.value] ?? value);
-      prevInput.value = convertMap[prevInput.value] ?? value;
+    if (currentKey.value.isConvertKey) {
+      if (value === "゛" && convertMap[prevInput.value]) {
+        emit("input", convertMap[prevInput.value][0]);
+        prevInput.value = convertMap[prevInput.value][0]
+      } else if(convertMap[prevInput.value] && convertMap[prevInput.value][1]) {
+        emit("input", convertMap[prevInput.value][1]);
+        prevInput.value = convertMap[prevInput.value][1]
+      }
     } else {
       emit("input", value);
       prevInput.value = value;
@@ -117,7 +122,14 @@ const {currentWordStatus} = defineProps<{
 }>()
 
 
-const convertMap = invert(hintMap);
+const convertMap = Object.entries(hintMap).reduce((reduce, values) => {
+  const [after, before] = values
+  if (!reduce[before]) {
+    reduce[before] = []
+  }
+  reduce[before].push(after)
+  return reduce
+}, {} as {[key:string]: string[]})
 
 function isHint(key:Key|string|undefined) {
   if (!key) return false;
