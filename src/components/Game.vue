@@ -63,7 +63,6 @@ section {
 
 section > div {
   width: 100%;
-  border: 1px solid aquamarine;
   flex: 1;
 }
 
