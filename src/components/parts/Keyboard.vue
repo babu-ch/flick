@@ -42,7 +42,7 @@ const positions = ref<Record<DirectionKeys, {top:string; left:string}>>({
 
 const arrows = ref<HTMLDivElement[]>([]);
 const gridContainer = ref<HTMLDivElement>()
-function mousedown(key: Key, e: MouseEvent) {
+function mousedown(key: Key, e: MouseEvent|TouchEvent) {
   currentKey.value = key;
 
   const target = (e.target as HTMLDivElement);
@@ -95,8 +95,22 @@ const emit = defineEmits<{
   input: [value: string]
 }>()
 
+const onDocumentTouchMove = {x: 0, y: 0};
+function move(event:TouchEvent) {
+  onDocumentTouchMove.x = event.changedTouches[event.changedTouches.length - 1].clientX;
+  onDocumentTouchMove.y = event.changedTouches[event.changedTouches.length - 1].clientY;
+}
+
+const isTouchDevice =  'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
 const prevInput = ref("");
 function mouseup(value:string) {
+
+  if (isTouchDevice) {
+    const elem = document.elementFromPoint(onDocumentTouchMove.x, onDocumentTouchMove.y);
+    value = elem!.innerHTML
+  }
+
   // 他のキーの上でupするのを防ぐ
   if (Object.values(currentKey.value).find(v => v === value)) {
     if (currentKey.value.isConvertKey) {
@@ -161,6 +175,9 @@ function isHint(key:Key|string|undefined) {
   <div class="grid-container" ref="gridContainer">
     <div class="grid-item"
          v-for="key in keys" :key="key.main"
+         @touchstart="move($event); mousedown(key, $event)"
+         @touchend="mouseup(key.main)"
+         @touchmove="move"
          @mousedown="mousedown(key, $event)"
          @mouseup="mouseup(key.main)"
          :class="{hint: isHint(key), disabled:key.isCommand && !key.isConvertKey, convertKey:key.isConvertKey}"
@@ -172,7 +189,7 @@ function isHint(key:Key|string|undefined) {
     class="arrows" ref="arrows"
    :class="[direction, {hint: isHint(currentKey[direction]!)}]"
        v-show="currentKey[direction]"
-       @mouseup="mouseup(currentKey[direction]!)"
+        @mouseup="mouseup(currentKey[direction]!)"
        :style="{'left': positions[direction].left, 'top': positions[direction].top}">
     {{ currentKey[direction] }}
   </div>
