@@ -88,10 +88,15 @@ document.addEventListener("mouseup", () => {
   }
 })
 
+const emit = defineEmits<{
+  input: [value: string]
+}>()
+
 const prevInput = ref("");
 function mouseup(value:string) {
+  // 他のキーの上でupするのを防ぐ
   if (Object.values(currentKey.value).find(v => v === value)) {
-    console.error(value)
+    emit("input", value);
     prevInput.value = value;
   }
   currentKey.value = {main:"", isCommand: false};
