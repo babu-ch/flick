@@ -56,7 +56,6 @@ function mousedown(key: Key, e: MouseEvent) {
     arrow.style.height = (rect.height - 2) + "px"
   })
 
-
   const absoluteTop = rect.top + window.scrollY;
   const absoluteLeft = rect.left + window.scrollX;
 
@@ -180,7 +179,7 @@ function isHint(key:Key|string|undefined) {
 
 .grid-item, .arrows {
   user-select: none;
-  background-color: lightblue;
+  background-color: whitesmoke;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -192,7 +191,7 @@ function isHint(key:Key|string|undefined) {
 }
 
 .arrows {
-  position: absolute;
+  position: fixed;
   background-color: white;
 }
 
