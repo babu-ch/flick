@@ -215,8 +215,6 @@ onMounted(() => {
 }
 
 .grid-item, .arrows {
-  user-select: none;
-  -webkit-user-select: none;
   display: flex;
   align-items: center;
   justify-content: center;

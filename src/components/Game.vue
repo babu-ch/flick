@@ -71,9 +71,13 @@ section > div {
   justify-content: center; /* 水平方向に中央寄せ */
   align-items: center; /* 垂直方向に中央寄せ */
   flex-direction: column; /* 子要素を縦に並べる */
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .keyArea {
+  user-select: none;
+  -webkit-user-select: none;
   flex: 6;
   display: flex;
   justify-content: center;
