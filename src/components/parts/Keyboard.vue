@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {invert} from "lodash";
-import hintMap from "../../json/hintMap.json";
+import hint from "../../json/hintMap.json";
+
+const hintMap = hint as {[key:string]: string};
 
 type DirectionKeys = 'left' | 'right' | 'up' | 'down';
 type Key = {
