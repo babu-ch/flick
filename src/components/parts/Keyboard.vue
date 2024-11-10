@@ -209,6 +209,7 @@ function isHint(key:Key|string|undefined) {
 
 .grid-item, .arrows {
   user-select: none;
+  -webkit-user-select: none;
   background-color: whitesmoke;
   display: flex;
   align-items: center;
