@@ -2,9 +2,14 @@
   <section>
     <div class="qArea">
       <div>
-        <div>{{currentSentence.text}}</div>
-        <div>{{currentWordStatus}}</div>
+        <transition name="fade" mode="out-in">
+          <div :key="currentSentence.text">{{ currentSentence.text }}</div>
+        </transition>
+        <transition name="fade" mode="out-in">
+          <div :key="currentSentence.hiragana">{{ currentWordStatus }}</div>
+        </transition>
       </div>
+      <p @click="nextSentence">skip</p>
     </div>
     <div class="keyArea">
       <Keyboard :currentWordStatus @input="input"/>
@@ -33,13 +38,17 @@ function input(value: string) {
   }
   currentWordStatus.value = currentWordStatus.value.slice(1)
   if (!currentWordStatus.value.length) {
-    const sentence = sentenceList.value.pop();
-    if (!sentence) {
-      location.reload();
-      return;
-    }
-    currentSentence.value = sentence;
+    nextSentence();
   }
+}
+
+function nextSentence() {
+  const sentence = sentenceList.value.pop();
+  if (!sentence) {
+    location.reload();
+    return;
+  }
+  currentSentence.value = sentence;
 }
 </script>
 
@@ -69,5 +78,13 @@ section > div {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  opacity: 0;
 }
 </style>
