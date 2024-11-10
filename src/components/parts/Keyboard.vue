@@ -123,6 +123,7 @@ function isHint(key:Key|string|undefined) {
   if (!key) return false;
   // stringの場合は展開された時
   if (typeof key === "string") {
+    console.error(key, currentWordStatus[0])
     return key === currentWordStatus[0]
   }
   const hintChar = hintMap[currentWordStatus[0]];
@@ -148,7 +149,7 @@ function isHint(key:Key|string|undefined) {
   <div
     v-for="direction in (['left', 'right', 'up', 'down'] as (DirectionKeys)[])" :key="direction"
     class="arrows" ref="arrows"
-   :class="[direction, {hint: isHint(currentKey.left!)}]"
+   :class="[direction, {hint: isHint(currentKey[direction]!)}]"
        v-show="currentKey[direction]"
        @mouseup="mouseup(currentKey[direction]!)"
        :style="{'left': positions[direction].left, 'top': positions[direction].top}">
