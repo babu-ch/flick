@@ -76,7 +76,6 @@ section > div {
 .keyArea {
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .fade-enter-active, .fade-leave-active {
