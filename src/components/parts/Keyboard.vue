@@ -164,8 +164,8 @@ function isHint(key:Key|string|undefined) {
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
   gap: 5px;
-  width: 60%;
-  height: 60%;
+  width: 70%;
+  height: 70%;
 }
 
 .grid-item, .arrows {

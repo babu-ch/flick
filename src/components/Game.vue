@@ -1,15 +1,15 @@
 <template>
   <section>
     <div class="qArea">
-      <div>
+      <div class="sentenceWrap">
         <transition name="fade" mode="out-in">
-          <div :key="currentSentence.text">{{ currentSentence.text }}</div>
+          <div :key="currentSentence.text" class="text">{{ currentSentence.text }}</div>
         </transition>
         <transition name="fade" mode="out-in">
-          <div :key="currentSentence.hiragana">{{ currentWordStatus }}</div>
+          <div :key="currentSentence.hiragana" class="hiragana">{{ currentWordStatus }}</div>
         </transition>
       </div>
-      <p @click="nextSentence">skip</p>
+      <button @click="nextSentence">スキップ</button>
     </div>
     <div class="keyArea">
       <Keyboard :currentWordStatus @input="input"/>
@@ -85,5 +85,31 @@ section > div {
 
 .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
   opacity: 0;
+}
+
+.sentenceWrap {
+  margin-top: 25%;
+  width: 90%;
+  border: 1px solid #CCC;
+  border-radius: 5px;
+  padding:10px;
+  font-size: 1.2em;
+}
+.sentenceWrap > div{
+  padding: 10px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 5px;
+}
+
+.text {
+  font-weight: bold;
+}
+
+.hiragana::first-letter {
+  color: pink; /* 一文字目だけ色を赤に */
+  font-weight: bold;
 }
 </style>
