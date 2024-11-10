@@ -14,11 +14,9 @@
 
 <script setup lang="ts">
 import Keyboard from "./parts/Keyboard.vue";
-import words from "../json/words.json";
 import {ref, watch} from "vue";
-import {shuffle} from "lodash";
 
-const wordList = ref(shuffle(words));
+const wordList = ref(["ぁ"]);
 const currentWord = ref(wordList.value.pop() as string);
 
 const currentWordStatus = ref(currentWord.value);

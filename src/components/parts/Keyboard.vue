@@ -88,9 +88,11 @@ document.addEventListener("mouseup", () => {
   }
 })
 
+const prevInput = ref("");
 function mouseup(value:string) {
   if (Object.values(currentKey.value).find(v => v === value)) {
     console.error(value)
+    prevInput.value = value;
   }
   currentKey.value = {main:"", isCommand: false};
 }
@@ -100,12 +102,35 @@ const {currentWordStatus} = defineProps<{
   currentWordStatus: string;
 }>()
 
+const hintMap:{[key:string]:string} = {
+  // 小文字
+  "ぁ": "あ", "ぃ": "い", "ぅ": "う", "ぇ": "え", "ぉ": "お",
+  "っ": "つ", "ゃ": "や", "ゅ": "ゆ", "ょ": "よ", "ゎ": "わ",
+  // 濁音
+  "が": "か", "ぎ": "き", "ぐ": "く", "げ": "け", "ご": "こ",
+  "ざ": "さ", "じ": "し", "ず": "す", "ぜ": "せ", "ぞ": "そ",
+  "だ": "た", "ぢ": "ち", "づ": "つ", "で": "て", "ど": "と",
+  "ば": "は", "び": "ひ", "ぶ": "ふ", "べ": "へ", "ぼ": "ほ",
+  "ぱ": "は", "ぴ": "ひ", "ぷ": "ふ", "ぺ": "へ", "ぽ": "ほ",
+};
+
 function isHint(key:Key|string|undefined) {
   if (!key) return false;
+  // stringの場合は展開された時
   if (key instanceof String) {
-    return key === currentWordStatus[0]
+    if (key === currentWordStatus[0]) {
+      return true;
+    }
+    return false;
   }
-  return Object.values(key).includes(currentWordStatus[0])
+  const hintChar = hintMap[currentWordStatus[0]];
+  // 小文字等
+  if (hintChar && prevInput.value === hintChar) {
+    console.error(key.main)
+    return key.main === "゛゜";
+  }
+
+  return Object.values(key).includes(hintChar ?? currentWordStatus[0]);
 }
 </script>
 
@@ -116,7 +141,7 @@ function isHint(key:Key|string|undefined) {
          v-for="key in keys" :key="key.main"
          @mousedown="mousedown(key, $event)"
          @mouseup="mouseup(key.main)"
-         :class="{hint: isHint(key)}"
+         :class="{hint: isHint(key), disabled:key.isCommand && key.main !== '゛゜'}"
     >{{ key.main }}
     </div>
   </div>
@@ -167,5 +192,9 @@ function isHint(key:Key|string|undefined) {
 
 .hint {
   background-color: pink;
+}
+
+.disabled {
+  background-color: gray;
 }
 </style>
