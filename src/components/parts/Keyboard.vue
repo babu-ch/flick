@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import {invert} from "lodash";
+import hintMap from "../../json/hintMap.json";
 
 type DirectionKeys = 'left' | 'right' | 'up' | 'down';
 type Key = {
@@ -113,17 +114,7 @@ const {currentWordStatus} = defineProps<{
   currentWordStatus: string;
 }>()
 
-const hintMap:{[key:string]:string} = {
-  // 小文字
-  "ぁ": "あ", "ぃ": "い", "ぅ": "う", "ぇ": "え", "ぉ": "お",
-  "っ": "つ", "ゃ": "や", "ゅ": "ゆ", "ょ": "よ", "ゎ": "わ",
-  // 濁音
-  "が": "か", "ぎ": "き", "ぐ": "く", "げ": "け", "ご": "こ",
-  "ざ": "さ", "じ": "し", "ず": "す", "ぜ": "せ", "ぞ": "そ",
-  "だ": "た", "ぢ": "ち", "づ": "つ", "で": "て", "ど": "と",
-  "ば": "は", "び": "ひ", "ぶ": "ふ", "べ": "へ", "ぼ": "ほ",
-  "ぱ": "は", "ぴ": "ひ", "ぷ": "ふ", "ぺ": "へ", "ぽ": "ほ",
-};
+
 const convertMap = invert(hintMap);
 
 function isHint(key:Key|string|undefined) {
