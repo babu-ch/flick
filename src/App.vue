@@ -20,7 +20,7 @@ function openGithub() {
 <style scoped>
 header {
   border-bottom: 1px solid #CCC;
-  height: 90px;
+  height: 70px;
   position: absolute;
   width: 100%;
   font-size: 25px;
@@ -28,11 +28,11 @@ header {
   justify-content: space-between;
   align-items: center;
   font-weight: bold;
+  padding: 10px;
+  box-sizing: border-box;
 }
 .icons {
   display: flex;
-  gap: 20px; /* アイコン間のスペース */
   user-select: none;
-  margin-right: 20px;
 }
 </style>
