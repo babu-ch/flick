@@ -28,5 +28,6 @@ header {
 .icons {
   display: flex;
   gap: 20px; /* アイコン間のスペース */
+  user-select: none;
 }
 </style>
