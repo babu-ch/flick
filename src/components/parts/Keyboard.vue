@@ -117,19 +117,14 @@ const hintMap:{[key:string]:string} = {
 function isHint(key:Key|string|undefined) {
   if (!key) return false;
   // stringの場合は展開された時
-  if (key instanceof String) {
-    if (key === currentWordStatus[0]) {
-      return true;
-    }
-    return false;
+  if (typeof key === "string") {
+    return key === currentWordStatus[0]
   }
   const hintChar = hintMap[currentWordStatus[0]];
   // 小文字等
   if (hintChar && prevInput.value === hintChar) {
-    console.error(key.main)
     return key.main === "゛゜";
   }
-
   return Object.values(key).includes(hintChar ?? currentWordStatus[0]);
 }
 </script>
