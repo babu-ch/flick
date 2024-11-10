@@ -3,7 +3,7 @@ import Game from "./components/Game.vue";
 
 
 function openGithub() {
-  window.open("https://github.com/vuejs/github");
+  window.open("https://github.com/babu-ch/flick");
 }
 </script>
 
