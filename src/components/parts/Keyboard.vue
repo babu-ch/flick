@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import {invert} from "lodash";
 import hint from "../../json/hintMap.json";
 
 const hintMap = hint as {[key:string]: string};
@@ -101,7 +100,7 @@ function mouseup(value:string) {
   // 他のキーの上でupするのを防ぐ
   if (Object.values(currentKey.value).find(v => v === value)) {
     if (currentKey.value.isConvertKey) {
-      if (value === "゛" && convertMap[prevInput.value]) {
+      if (value.includes("゛") && convertMap[prevInput.value]) {
         emit("input", convertMap[prevInput.value][0]);
         prevInput.value = convertMap[prevInput.value][0]
       } else if(convertMap[prevInput.value] && convertMap[prevInput.value][1]) {
@@ -137,6 +136,15 @@ function isHint(key:Key|string|undefined) {
 
   // stringの場合は展開された時
   if (typeof key === "string") {
+    if (
+      convertMap[hintChar] && currentKey.value.isConvertKey
+    ) {
+      if (key === "゛" || key === "゛゜") {
+        return convertMap[hintChar][0] === currentWordStatus[0]
+      } else {
+        return convertMap[hintChar][1] === currentWordStatus[0]
+      }
+    }
     return key === (hintChar ?? currentWordStatus[0])
   }
 
