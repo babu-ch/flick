@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import hint from "../../json/hintMap.json";
 
 const hintMap = hint as {[key:string]: string};
@@ -168,6 +168,13 @@ function isHint(key:Key|string|undefined) {
   }
   return Object.values(key).includes(hintChar ?? currentWordStatus[0]);
 }
+
+onMounted(() => {
+  if (!gridContainer.value) {
+    return
+  }
+  gridContainer.value.style.height = gridContainer.value.offsetWidth + "px"
+})
 </script>
 
 <template>
@@ -204,13 +211,12 @@ function isHint(key:Key|string|undefined) {
   grid-template-rows: repeat(4, 1fr);
   gap: 5px;
   width: 70%;
-  height: 70%;
+  grid-auto-rows: 1fr; /* アイテムの高さを自動調整 */
 }
 
 .grid-item, .arrows {
   user-select: none;
   -webkit-user-select: none;
-  background-color: whitesmoke;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -223,7 +229,7 @@ function isHint(key:Key|string|undefined) {
 
 .arrows {
   position: fixed;
-  background-color: white;
+  background-color: whitesmoke;
 }
 
 .arrows.hint {
@@ -235,7 +241,8 @@ function isHint(key:Key|string|undefined) {
 }
 
 .disabled {
-  background-color: gray;
+  background-color: grey;
+  opacity: 0.8;
 }
 
 .convertKey::after {

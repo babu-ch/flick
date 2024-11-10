@@ -63,10 +63,10 @@ section {
 
 section > div {
   width: 100%;
-  flex: 1;
 }
 
 .qArea {
+  flex: 4;
   display: flex;
   justify-content: center; /* 水平方向に中央寄せ */
   align-items: center; /* 垂直方向に中央寄せ */
@@ -74,6 +74,7 @@ section > div {
 }
 
 .keyArea {
+  flex: 6;
   display: flex;
   justify-content: center;
 }
