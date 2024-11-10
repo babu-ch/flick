@@ -129,32 +129,6 @@ function isHint(key:Key|string|undefined) {
        :style="{'left': positions[direction].left, 'top': positions[direction].top}">
     {{ currentKey[direction] }}
   </div>
-<!--  <div class="arrows left" ref="left"-->
-<!--       :class="{hint: isHint(currentKey.left!)}"-->
-<!--       v-show="currentKey.left"-->
-<!--       @mouseup="mouseup(currentKey.left!)"-->
-<!--       :style="{'left': positions.left.left, 'top': positions.left.top}">-->
-<!--    {{ currentKey.left }}-->
-<!--  </div>-->
-<!--  <div class="arrows right" ref="right"-->
-<!--       :class="{hint: isHint(currentKey.right!)}"-->
-<!--       v-show="currentKey.right"-->
-<!--       @mouseup="mouseup(currentKey.right!)"-->
-<!--       :style="{'left': positions.right.left, 'top': positions.right.top}"> {{ currentKey.right }}-->
-<!--  </div>-->
-<!--  <div class="arrows up" ref="up"-->
-<!--       :class="{hint: isHint(currentKey.up!)}"-->
-<!--       v-show="currentKey.up"-->
-<!--       @mouseup="mouseup(currentKey.up!)"-->
-<!--       :style="{'left': positions.up.left, 'top': positions.up.top}"> {{ currentKey.up }}-->
-<!--  </div>-->
-<!--  <div class="arrows down" ref="down"-->
-<!--       :class="{hint: isHint(currentKey.down!)}"-->
-<!--       v-show="currentKey.down"-->
-<!--       @mouseup="mouseup(currentKey.down!)"-->
-<!--       :style="{'left': positions.down.left, 'top': positions.down.top}"> {{ currentKey.down }}-->
-<!--  </div>-->
-
 </template>
 
 <style scoped>
