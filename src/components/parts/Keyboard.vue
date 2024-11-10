@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import {ref} from "vue";
+import {invert} from "lodash";
 
 type DirectionKeys = 'left' | 'right' | 'up' | 'down';
 type Key = {
   main: string;
   isCommand: boolean
+  isConvertKey?:boolean;
 } &{
   [key in DirectionKeys]?: string;
 }
@@ -22,7 +24,7 @@ const keys: Key[] = [
   {main: "や", left: "", up: "ゆ", right: "", down: "よ", isCommand:false},
   {main: "ら", left: "り", up: "る", right: "れ", down: "ろ", isCommand:false},
   {main: "_", isCommand:true},
-  {main: "゛゜", isCommand:true},
+  {main: "゛゜", isCommand:true, isConvertKey: true},
   {main: "わ", left: "を", up: "ん", right: "ー", down: "〜", isCommand:false},
   {main: "、", left: "。", up: "？", right: "！", down: "...", isCommand:false},
   {main: "↵", isCommand:true},
@@ -96,8 +98,13 @@ const prevInput = ref("");
 function mouseup(value:string) {
   // 他のキーの上でupするのを防ぐ
   if (Object.values(currentKey.value).find(v => v === value)) {
-    emit("input", value);
-    prevInput.value = value;
+    if (value === "゛゜") {
+      emit("input", convertMap[prevInput.value] ?? value);
+      prevInput.value = convertMap[prevInput.value] ?? value;
+    } else {
+      emit("input", value);
+      prevInput.value = value;
+    }
   }
   currentKey.value = {main:"", isCommand: false};
 }
@@ -118,6 +125,7 @@ const hintMap:{[key:string]:string} = {
   "ば": "は", "び": "ひ", "ぶ": "ふ", "べ": "へ", "ぼ": "ほ",
   "ぱ": "は", "ぴ": "ひ", "ぷ": "ふ", "ぺ": "へ", "ぽ": "ほ",
 };
+const convertMap = invert(hintMap);
 
 function isHint(key:Key|string|undefined) {
   if (!key) return false;
@@ -130,7 +138,7 @@ function isHint(key:Key|string|undefined) {
 
   // 小文字等
   if (hintChar && prevInput.value === hintChar) {
-    return key.main === "゛゜";
+    return key.isConvertKey;
   }
   return Object.values(key).includes(hintChar ?? currentWordStatus[0]);
 }
@@ -143,7 +151,7 @@ function isHint(key:Key|string|undefined) {
          v-for="key in keys" :key="key.main"
          @mousedown="mousedown(key, $event)"
          @mouseup="mouseup(key.main)"
-         :class="{hint: isHint(key), disabled:key.isCommand && key.main !== '゛゜'}"
+         :class="{hint: isHint(key), disabled:key.isCommand && !key.isConvertKey}"
     >{{ key.main }}
     </div>
   </div>

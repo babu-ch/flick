@@ -2,12 +2,12 @@
   <section>
     <div class="qArea">
       <div>
-        <div>{{currentWord}}</div>
+        <div>{{currentSentence.text}}</div>
         <div>{{currentWordStatus}}</div>
       </div>
     </div>
     <div class="keyArea">
-      <Keyboard :currentWordStatus/>
+      <Keyboard :currentWordStatus @input="input"/>
     </div>
   </section>
 </template>
@@ -15,15 +15,24 @@
 <script setup lang="ts">
 import Keyboard from "./parts/Keyboard.vue";
 import {ref, watch} from "vue";
+import sentences from "../json/sentences.json";
+import {shuffle} from "lodash";
 
-const wordList = ref(["ぁ"]);
-const currentWord = ref(wordList.value.pop() as string);
+const sentenceList = ref(shuffle(sentences));
+const currentSentence = ref(sentenceList.value.pop()!);
 
-const currentWordStatus = ref(currentWord.value);
+const currentWordStatus = ref(currentSentence.value.hiragana);
 
-watch(currentWord, () => {
-  currentWordStatus.value = currentWord.value;
+watch(currentSentence, () => {
+  currentWordStatus.value = currentSentence.value.hiragana;
 })
+
+function input(value: string) {
+  console.error(value)
+  if (currentWordStatus.value[0] === value) {
+    currentWordStatus.value = currentWordStatus.value.slice(1)
+  }
+}
 </script>
 
 <style scoped>
