@@ -87,7 +87,7 @@ section > div {
 }
 
 .sentenceWrap {
-  margin-top: 25%;
+  margin-top: 10%;
   width: 90%;
   border: 1px solid #CCC;
   border-radius: 5px;
